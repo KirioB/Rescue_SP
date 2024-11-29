@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/XC32_PIC32MX795F512L/production/RESCUE_SP_v1.X.production.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>531968</length>                 
+      <used>1784</used>                     
+      <free>530184</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>131072</length>                 
+      <used>12</used>                     
+      <free>131060</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
