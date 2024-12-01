@@ -12,11 +12,21 @@
 #include "system.h"         /* System funct/params, like osc/periph config    */
 #include "user.h"           /* User funct/params, such as InitApp             */
 
+#define _XTAL_FREQ 8000000
+
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
 /* i.e. uint32_t <variable_name>; */
+
+// premiere fonction delay de test
+void delayms(int n){
+    int i;
+    for (i=0; i<n; i++){
+        continue;
+    }
+}
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -60,8 +70,17 @@ int32_t main(void)
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
 
+    // Initialisation de la broche RA0 comme sortie
+    TRISAbits.TRISA0 = 0;  // RB0 en sortie
+    LATAbits.LATA0 = 0;    // RB0 initialisé à LOW
+
     while(1)
     {
+        LATBbits.LATB0 = 1;  // Allume la LED
+        delayms(500);     // Pause 500 ms
+
+        LATBbits.LATB0 = 0;  // Éteint la LED
+        delayms(500);     // Pause 500 ms
 
     }
 }
