@@ -22,4 +22,7 @@ void InitApp(void)
     /* Setup analog functionality and port direction */
 
     /* Initialize peripherals */
+    // Initialisation de la broche RA0 comme sortie
+    TRISAbits.TRISA0 = 0;  // RA0 en sortie
+    LATAbits.LATA0 = 0;    // RA0 initialisé à LOW
 }
