@@ -10,10 +10,11 @@
 #include <stdbool.h>        /* For true/false definition                      */
 
 #include "system.h"         /* System funct/params, like osc/periph config    */
-#include "user.h"           /* User funct/params, such as InitApp             */
+#include "user.h"     /* User funct/params, such as InitApp             */
 
-#define _XTAL_FREQ 20000000
+#define _XTAL_FREQ 8000000
 
+void writeUART2(char * string);
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
@@ -31,7 +32,7 @@ void delayms(int n){
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-
+char message[] = "A";
 int32_t main(void)
 {
 
@@ -70,9 +71,11 @@ int32_t main(void)
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
 
+    
     while(1)
     {
-        LATAbits.LATA0 = 1;  // Allume la LED
+        LATAbits.LATA0 = 1;// Allume la LED
+        writeUART2(message);
         delayms(500);     // Pause 500 ms
 
         LATAbits.LATA0 = 0;  // Eteint la LED
@@ -80,3 +83,14 @@ int32_t main(void)
 
     }
 }
+
+void writeUART2(char * string){
+    while (*string != '\0'){
+        while (U2STAbits.UTXBF){
+            ;
+        }
+        U2TXREG = *string;
+        ++string;
+    }
+}
+

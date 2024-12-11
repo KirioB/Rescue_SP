@@ -17,6 +17,22 @@
 
 /* TODO Initialize User Ports/Peripherals/Project here */
 
+void init_uart(void)
+{
+    // init UART 1 for USB
+    U2MODEbits.BRGH = 0;
+    U2BRG = (8000000/9600/16)-1;     // (freq/4*9600)-1
+    
+    U2STAbits.UTXEN = 1; // configure as output pin
+    U2STAbits.URXEN = 1; // configure as input pin
+    
+    U2MODEbits.PDSEL = 0; //No parity bit
+    U2MODEbits.STSEL = 0; //1 stop bit
+    
+    U2MODEbits.ON = 1; //enable UART
+    
+}
+
 void InitApp(void)
 {
     /* Setup analog functionality and port direction */
@@ -34,25 +50,16 @@ void InitApp(void)
     RPOR4bits.RP17R = 1;  //Map RB10 to UART2 Tx
     
     //RB12 (RP12) -> CTS UART config
-    TRISBbits.TRISB12 = 1;   //Set as Input
+    //TRISBbits.TRISB12 = 1;   //Set as Input
     RPINR9bits.U2CTSR = 12; //mapped RB12 to CTS
     
     //RB13 (RP13) -> RTS UART config
-    TRISBbits.TRISB13 = 0;   //Set as Output
+    //TRISBbits.TRISB13 = 0;   //Set as Output
     RPOR3bits.RP13R = 2;  //Map RB13 to RTS
     
     //RB11 (RP18) -> GPIO a config pour Rx UART
     TRISBbits.TRISB11 = 1;   //Set as Input
     RPINR9bits.U2RXR = 18; //mapped RP18 to UART2 Rx
-}
-
-void init_uart(void)
-{
-    // init UART 1 for USB
-    U2CON0bits.BRGS = 1; //high rate
-    U2CON0bits.U1TXEN = 1; // enable Transmition
-    U2CON0bits.U1RXEN = 1; // enable Recive
-    U2CON0bits.U1MODE = 0000;
-    U2CON1bits.ON = 1;
-    U1BRG = 832;     // (freq/4*9600)-1
+    
+    init_uart();
 }
