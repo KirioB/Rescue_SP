@@ -45,7 +45,7 @@ void InitApp(void)
     TRISBbits.TRISB11 = 1;   //Set as Input
     RPINR9bits.U2RXR = 18; //mapped RP18 to UART2 Rx
 }
-
+/*
 void init_uart(void)
 {
     // init UART 1 for USB
@@ -57,7 +57,7 @@ void init_uart(void)
     U1BRG = 832;     // (freq/4*9600)-1
 }
 
-//***Settings for SPI com***//
+//----------Init for SPI com---------//
 
 // Définir la broche SS pour le module LoRa
 #define LORA_SS_PIN LATBbits.LATB0 // Exemple : pin RB0 comme SS
@@ -94,4 +94,4 @@ void Test_LoRa() {
     } else {
         // error
     }
-}
+}*/

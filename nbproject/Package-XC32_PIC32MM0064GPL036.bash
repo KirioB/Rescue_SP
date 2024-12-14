@@ -10,9 +10,9 @@ CND_CONF=XC32_PIC32MM0064GPL036
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/RESCUE_SP_v1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=RESCUE_SP_v1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=rescuespv1.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/Rescue_SP.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=Rescue_SP.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=rescuesp/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/rescuespv1.x/bin
+makeDirectory ${TMPDIR}/rescuesp/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/rescuespv1.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/rescuesp.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/rescuespv1.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/rescuesp.tar *
 checkReturnCode
 
 # Cleanup

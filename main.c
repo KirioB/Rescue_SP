@@ -5,14 +5,15 @@
     #include <xc.h>          /* Defines special funciton registers, CP0 regs  */
 #endif
 
-//#include <plib.h>           /* Include to use PIC32 peripheral libraries      */
+//#include <plib.h>           /* Include to use PIC32 peripheral libraries    */
 #include <stdint.h>         /* For uint32_t definition                        */
 #include <stdbool.h>        /* For true/false definition                      */
 
 #include "system.h"         /* System funct/params, like osc/periph config    */
 #include "user.h"           /* User funct/params, such as InitApp             */
+#include "delay.c"          /*for delay_ms function*/
 
-#define _XTAL_FREQ 20000000
+#define _XTAL_FREQ 0x8000000
 
 /******************************************************************************/
 /* Global Variable Declaration                                                */
@@ -21,12 +22,13 @@
 /* i.e. uint32_t <variable_name>; */
 
 // premiere fonction delay de test
+/*
 void delayms(int n){
     int i;
     for (i=0; i<1000*n; i++){
         continue;
     }
-}
+}*/
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -73,10 +75,10 @@ int32_t main(void)
     while(1)
     {
         LATAbits.LATA0 = 1;  // Allume la LED
-        delayms(500);     // Pause 500 ms
+        delay_ms(1000);     // Pause 500 ms
 
         LATAbits.LATA0 = 0;  // Eteint la LED
-        delayms(500);     // Pause 500 ms
+        delay_ms(1000);     // Pause 500 ms
 
     }
 }
