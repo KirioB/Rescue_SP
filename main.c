@@ -8,13 +8,14 @@
 //#include <plib.h>           /* Include to use PIC32 peripheral libraries      */
 #include <stdint.h>         /* For uint32_t definition                        */
 #include <stdbool.h>        /* For true/false definition                      */
-
+#include <string.h>
 #include "system.h"         /* System funct/params, like osc/periph config    */
 #include "user.h"     /* User funct/params, such as InitApp             */
 
 #define _XTAL_FREQ 8000000
 
 void writeUART2(char * string);
+void readUART2(char * message, int maxLength);
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
@@ -32,7 +33,7 @@ void delayms(int n){
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-char message[] = "A";
+char message[100] ;
 int32_t main(void)
 {
 
@@ -75,9 +76,13 @@ int32_t main(void)
     while(1)
     {
         LATAbits.LATA0 = 1;// Allume la LED
+        readUART2(message, 100);
+        strcat(message, " recu par le PIC\n\r"); //attention \n\r obligatoire pour la comm ble
+
         writeUART2(message);
         delayms(500);     // Pause 500 ms
 
+        
         LATAbits.LATA0 = 0;  // Eteint la LED
         delayms(500);     // Pause 500 ms
 
@@ -94,3 +99,22 @@ void writeUART2(char * string){
     }
 }
 
+void readUART2(char * message, int maxLength){
+    char data = 0;
+    int complete = 0, num_bytes = 0;
+    while (!complete){ //loop until you get \r or \n
+        if(U2STAbits.URXDA){ //if data is available
+            data = U2RXREG; //send the data
+            if ((data == '\n') || (data == '\r')){
+                complete = 1;
+            }else {
+                message[num_bytes] = data;
+                ++num_bytes;
+                if (num_bytes >= maxLength){ //roll over if the array is too small
+                    num_bytes = 0;
+                }
+            }
+        }
+    }
+    message[num_bytes] = '\0'; //end of string
+}
