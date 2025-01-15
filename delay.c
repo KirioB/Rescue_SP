@@ -1,4 +1,3 @@
-//#include <delay.h>
 
 // Timer config for a delay function
 void delay_ms(unsigned int millisec) {

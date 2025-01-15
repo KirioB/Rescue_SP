@@ -6,6 +6,8 @@
     #include <xc.h>          /* Defines special funciton registers, CP0 regs  */
 #endif
 
+int *osc_freq; //freq de l'horloge pour la récup dans user = comm LoRa
+
 //#include <plib.h>            /* Include to use PIC32 peripheral libraries     */
 
 /******************************************************************************/
@@ -35,6 +37,7 @@
 // FDEVOPT
 #pragma config SOSCHP = OFF             // Secondary Oscillator High Power Enable bit (SOSC oprerates in normal power mode.)
 #pragma config USERID = 0xFFFF          // User ID bits (Enter Hexadecimal value)
+
 
 // FICD
 #pragma config JTAGEN = OFF             // JTAG Enable bit (JTAG is disabled)

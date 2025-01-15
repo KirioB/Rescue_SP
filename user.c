@@ -1,5 +1,5 @@
 /******************************************************************************/
-/* Files to Include                                                           */
+/* Files to Include    INITIALISATION = no test or other functions than init                                                       */
 /******************************************************************************/
 
 #ifdef __XC32
@@ -11,11 +11,16 @@
 #include <stdbool.h>         /* For true/false definition                     */
 #include "user.h"            /* variables/params used by user.c               */
 
+
+
 /******************************************************************************/
 /* User Functions                                                             */
 /******************************************************************************/
 
 /* TODO Initialize User Ports/Peripherals/Project here */
+
+
+
 
 void InitApp(void)
 {
@@ -26,6 +31,12 @@ void InitApp(void)
     // Initialisation de la broche RA0 comme sortie
     TRISAbits.TRISA0 = 0;  // RA0 en sortie
     LATAbits.LATA0 = 0;    // RA0 initialisÃ© Ã  LOW
+    
+    TRISCbits.TRISC9 = 0;  // RC9 configurée comme sortie (LED2)
+    LATCbits.LATC9 = 0;    // Éteindre LED2 par défaut
+    
+    
+    
     
     
         //---------------UART2-----------------------
@@ -45,6 +56,33 @@ void InitApp(void)
     TRISBbits.TRISB11 = 1;   //Set as Input
     RPINR9bits.U2RXR = 18; //mapped RP18 to UART2 Rx
 }
+
+void SPI_Init(void) {
+    // Configure SPI module
+    SPI1CON = 0;                     // Désactiver SPI pour configurer
+    SPI1BRG = 0x1F;                  // Baud rate (calculée en fonction de la fréquence de l'horloge du PIC32MM)
+    SPI1STATbits.SPIROV = 0;         // Clear overflow
+    SPI1CONbits.CKP = 0;             // Clock idle state is low
+    SPI1CONbits.CKE = 1;             // Data changes on rising edge
+    SPI1CONbits.MSTEN = 1;           // Master mode
+    SPI1CONbits.ON = 1;              // Enable SPI
+    
+        // Configurer les broches SPI
+    TRISBbits.TRISB9 = 0; // MOSI en sortie
+    TRISBbits.TRISB14 = 1; // MISO en entrée
+    TRISBbits.TRISB8 = 0; // SCK en sortie
+
+    // Configurer la broche CS
+    TRISBbits.TRISB2 = 0; // CS en sortie
+    LATBbits.LATB2 = 1;   // CS inactif (HIGH) par défaut
+}
+
+void CS_Init(void) {
+    TRISBbits.TRISB0 = 0;  // broche RB0 comme sortie
+    CS_HIGH();             // Par défaut, désactivez le module SPI
+}
+
+
 /*
 void init_uart(void)
 {
@@ -95,3 +133,6 @@ void Test_LoRa() {
         // error
     }
 }*/
+
+
+ 

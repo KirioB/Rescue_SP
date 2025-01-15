@@ -8,12 +8,13 @@
 //#include <plib.h>           /* Include to use PIC32 peripheral libraries    */
 #include <stdint.h>         /* For uint32_t definition                        */
 #include <stdbool.h>        /* For true/false definition                      */
-
 #include "system.h"         /* System funct/params, like osc/periph config    */
 #include "user.h"           /* User funct/params, such as InitApp             */
+#include "lora.h"   
 #include "delay.c"          /*for delay_ms function*/
 
-#define _XTAL_FREQ 0x8000000
+
+#define _XTAL_FREQ 8000000 // 8 MHz
 
 /******************************************************************************/
 /* Global Variable Declaration                                                */
@@ -63,8 +64,9 @@ int32_t main(void)
  //   SYSTEMConfig(SYS_FREQ, SYS_CFG_ALL); 
 
     /* Initialize I/O and Peripherals for application */
-    InitApp();
-
+    InitApp(); //init aussi UART
+    SPI_Init();
+    CS_Init();
     /*Configure Multivector Interrupt Mode.  Using Single Vector Mode
     is expensive from a timing perspective, so most applications
     should probably not use a Single Vector Mode*/
@@ -74,11 +76,18 @@ int32_t main(void)
 
     while(1)
     {
-        LATAbits.LATA0 = 1;  // Allume la LED
+        //identifier les leds: 
+   /*     LED1 = 1;  // Allume la LED
         delay_ms(1000);     // Pause 500 ms
+        LED2 = 1; //allume LED2
+        delay_ms(1000);
+        LED1 = 0; //éteindre led1
+        delay_ms(1000);
+        LED2 = 0; */
 
-        LATAbits.LATA0 = 0;  // Eteint la LED
-        delay_ms(1000);     // Pause 500 ms
+        //led allumee = envoie et retour registre lora
+        test (0x17, 0x47); //VERIFI8ER!!!!!!!!!!!!!!
+
 
     }
 }
