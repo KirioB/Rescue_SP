@@ -36,12 +36,12 @@ uint8_t test (uint8_t address, uint8_t value)
     SPI_WriteRegister(address, value);
     uint8_t retourLora = SPI_ReadRegister(address);
 //    printf("Valeur du registre à l'adresse %d : %d\n", address, retourLora);
-    if (  retourLora == value && address == address) //le registre a bien la valeur qu'on lui a donnée
-        LED1 = 1;  // Allume la LED1
+    if (  retourLora == value && address == address) //le registre a bien la valeur qu'on lui a donné
+        LED2 = 1;  // Allume la LED1
     else 
     {
         //mauvais numéro de registre, autre LED s'allume
-        LED2 = 1;
+        LED1 = 1;
     }   
 }
 
