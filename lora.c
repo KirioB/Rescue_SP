@@ -7,12 +7,14 @@
 
 void SPI_WriteRegister(uint8_t address, uint8_t value) {
     CS_LOW();
-    SPI1BUF = address & 0x7F;  // Adresse (bit MSB = 0 pour écriture)
+    SPI1BUF = address | 0x80;  // Adresse (bit MSB = 1 pour lecture)
     while (!SPI1STATbits.SPIRBF);  // Attendre la fin de la transmission
     (void)SPI1BUF;  // Lecture pour vider le buffer
 
     SPI1BUF = value;  // Envoyer la valeur
+    IFS0bits.SPI1RXIF = 0;
     while (!SPI1STATbits.SPIRBF);
+    while (!IFS0bits.SPI1RXIF);
     (void)SPI1BUF;  // Lecture pour vider le buffer
     CS_HIGH();
 }
@@ -20,7 +22,7 @@ void SPI_WriteRegister(uint8_t address, uint8_t value) {
 
 uint8_t SPI_ReadRegister(uint8_t address) {
     CS_LOW();
-    SPI1BUF = address | 0x80;  // Adresse (bit MSB = 1 pour lecture)
+    SPI1BUF = address & 0x7F;  // Adresse (bit MSB = 0 pour écriture)
     while (!SPI1STATbits.SPIRBF);
     (void)SPI1BUF;
 
@@ -33,7 +35,7 @@ uint8_t SPI_ReadRegister(uint8_t address) {
 
 uint8_t test (uint8_t address, uint8_t value) 
     {
-    SPI_WriteRegister(address, value);
+  //  SPI_WriteRegister(address, value);
     uint8_t retourLora = SPI_ReadRegister(address);
 //    printf("Valeur du registre à l'adresse %d : %d\n", address, retourLora);
     if (  retourLora == value && address == address) //le registre a bien la valeur qu'on lui a donné

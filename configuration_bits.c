@@ -41,7 +41,7 @@ int *osc_freq; //freq de l'horloge pour la récup dans user = comm LoRa
 
 // FICD
 #pragma config JTAGEN = OFF             // JTAG Enable bit (JTAG is disabled)
-#pragma config ICS = PGx1               // ICE/ICD Communication Channel Selection bits (Communicate on PGEC1/PGED1)
+#pragma config ICS = PGx3               // ICE/ICD Communication Channel Selection bits (Communicate on PGEC1/PGED1)
 
 // FPOR
 #pragma config BOREN = BOR0             // Brown-out Reset Enable bits (Brown-out Reset disabled in hardware; SBOREN bit disabled)

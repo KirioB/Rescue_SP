@@ -3,9 +3,9 @@
   <executable name="dist/XC32_PIC32MM0064GPL036/debug/Rescue_SP.debug.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
-      <length>70800</length>                 
-      <used>2644</used>                     
-      <free>68156</free>                     
+      <length>66704</length>                 
+      <used>2648</used>                     
+      <free>64056</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 

@@ -86,7 +86,8 @@ int32_t main(void)
         LED2 = 0; */
 
         //led allumee = envoie et retour registre lora
-        test (0x17, 0x47); //VERIFI8ER!!!!!!!!!!!!!!
+        test (0x17,0x47); //VERIFI8ER!!!!!!!!!!!!!!
+        //delay_ms(100);     // Pause 500 ms
 
 
     }

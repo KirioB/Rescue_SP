@@ -3,9 +3,9 @@
   <executable name="dist/XC32_PIC32MM0064GPL036/production/Rescue_SP.production.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
-      <length>70800</length>                 
-      <used>2640</used>                     
-      <free>68160</free>                     
+      <length>66704</length>                 
+      <used>2636</used>                     
+      <free>64068</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
