@@ -64,10 +64,11 @@ int32_t main(void)
  //   SYSTEMConfig(SYS_FREQ, SYS_CFG_ALL); 
 
     /* Initialize I/O and Peripherals for application */
+    RST();
     InitApp(); //init aussi UART
     SPI_Init();
     CS_Init();
-    //RST();
+    
     /*Configure Multivector Interrupt Mode.  Using Single Vector Mode
     is expensive from a timing perspective, so most applications
     should probably not use a Single Vector Mode*/
@@ -89,8 +90,8 @@ int32_t main(void)
          */
         //delay_ms(100);
         //led allumee = envoie et retour registre lora
-        test (0x18,0x12); //VERIFI8ER!!!!!!!!!!!!!!
-        //SPI_ReadRegister(0x18);
+        //test (0x18,0x13); //VERIFI8ER!!!!!!!!!!!!!!
+        SPI_ReadRegister(0x18);
         
         //delay_ms (100);
     }

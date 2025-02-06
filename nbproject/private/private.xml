@@ -11,11 +11,6 @@
             <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/lora.h</file>
             <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/configuration_bits.c</file>
         </group>
-        <group>
-            <file>file:/D:/Documents/Programmation/LoRaProject/Rescue_SP/configuration_bits.c</file>
-            <file>file:/D:/Documents/Programmation/LoRaProject/Rescue_SP/user.c</file>
-            <file>file:/D:/Documents/Programmation/LoRaProject/Rescue_SP/main.c</file>
-            <file>file:/D:/Documents/Programmation/LoRaProject/Rescue_SP/lora.c</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
