@@ -4,7 +4,7 @@
 #include "user.h"
 #include "lora.h"
 
-
+/*
 void SPI_WriteRegister(uint8_t address, uint8_t value) {
     CS_LOW();
     SPI1BUF = address | 0x80;  // Adresse (bit MSB = 1 pour lecture)
@@ -18,7 +18,21 @@ void SPI_WriteRegister(uint8_t address, uint8_t value) {
     (void)SPI1BUF;  // Lecture pour vider le buffer
     CS_HIGH();
 }
- 
+*/
+
+void SPI_WriteRegister(uint8_t address, uint8_t value) {
+    CS_LOW();  // Activer le périphérique SPI
+    SPI1BUF = address | 0x80;  // Adresse avec bit MSB à 1 pour écrire
+    while (!SPI1STATbits.SPIRBF);  // Attendre la fin de la transmission
+    (void)SPI1BUF;  // Lire et vider le buffer
+
+    SPI1BUF = value;  // Envoyer la valeur à écrire
+    while (!SPI1STATbits.SPIRBF);  // Attendre la fin de la transmission
+    (void)SPI1BUF;  // Lire et vider le buffer
+
+    CS_HIGH();  // Désactiver le périphérique SPI
+}
+
 
 uint8_t SPI_ReadRegister(uint8_t address) {
     CS_LOW();
@@ -33,11 +47,12 @@ uint8_t SPI_ReadRegister(uint8_t address) {
     return result;
 }
 
+/*
 uint8_t test (uint8_t address, uint8_t value) 
     {
-  //  SPI_WriteRegister(address, value);
+    SPI_WriteRegister(address, value);
     uint8_t retourLora = SPI_ReadRegister(address);
-//    printf("Valeur du registre à l'adresse %d : %d\n", address, retourLora);
+    printf("Valeur du registre à l'adresse %d : %d\n", address, retourLora);
     if (  retourLora == value && address == address) //le registre a bien la valeur qu'on lui a donné
         LED2 = 1;  // Allume la LED1
     else 
@@ -46,7 +61,30 @@ uint8_t test (uint8_t address, uint8_t value)
         LED1 = 1;
     }   
 }
-
+*/
+uint8_t test(uint8_t address, uint8_t expected_value) 
+{
+    // Écriture de la valeur dans le registre donné
+    SPI_WriteRegister(address, expected_value);
+    // Lecture de la valeur du registre après écriture
+    uint8_t retourLora = SPI_ReadRegister(address);
+    // Affichage de la valeur lue
+    printf("Valeur du registre à l'adresse %u : %u (attendu : %u)\n", address, retourLora, expected_value);
+    // Réinitialisation des LEDs
+    LED1 = 0;
+    LED2 = 0;
+    // Vérification si la valeur lue est bien celle attendue
+    if (retourLora == expected_value) 
+    {
+        LED1 = 1;  // Si c'est correct, allume LED1
+        return 1;  // Succès
+    } 
+    else 
+    {
+        LED2 = 1;  // Sinon, allume LED2 pour signaler une erreur
+        return 0;  // Échec
+    }
+}
 
 
 

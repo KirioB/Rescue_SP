@@ -19,4 +19,4 @@
 void InitApp(void);         /* I/O and Peripheral Initialization */
 void SPI_Init(void);
 void CS_Init(void);
-
+void RST(void);

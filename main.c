@@ -67,6 +67,7 @@ int32_t main(void)
     InitApp(); //init aussi UART
     SPI_Init();
     CS_Init();
+    //RST();
     /*Configure Multivector Interrupt Mode.  Using Single Vector Mode
     is expensive from a timing perspective, so most applications
     should probably not use a Single Vector Mode*/
@@ -77,18 +78,20 @@ int32_t main(void)
     while(1)
     {
         //identifier les leds: 
-   /*     LED1 = 1;  // Allume la LED
+   
+        /*LED1 = 1;  // Allume la LED
         delay_ms(1000);     // Pause 500 ms
         LED2 = 1; //allume LED2
         delay_ms(1000);
         LED1 = 0; //éteindre led1
         delay_ms(1000);
-        LED2 = 0; */
-
+        LED2 = 0; 
+         */
+        //delay_ms(100);
         //led allumee = envoie et retour registre lora
-        test (0x17,0x47); //VERIFI8ER!!!!!!!!!!!!!!
-        //delay_ms(100);     // Pause 500 ms
-
-
+        test (0x18,0x12); //VERIFI8ER!!!!!!!!!!!!!!
+        //SPI_ReadRegister(0x18);
+        
+        //delay_ms (100);
     }
 }

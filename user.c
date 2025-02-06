@@ -85,7 +85,13 @@ void CS_Init(void) {
     CS_HIGH();             // Par défaut, désactivez le module SPI
 }
 
-
+void RST(void){
+    TRISAbits.TRISA9 = 0;  // RA9 en sortie
+    
+    LATAbits.LATA9 = 1;    // RA9 initialisÃ© Ã  LOW
+    delay_ms(500);
+    LATAbits.LATA9 = 0;
+}
 /*
 void init_uart(void)
 {
