@@ -2,15 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Group 20240515-12:10:16">
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/user.c</file>
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/delay.c</file>
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/main.c</file>
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/lora.c</file>
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/user.h</file>
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/lora.h</file>
-            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/gitapp/Rescue_SP/configuration_bits.c</file>
-        </group>
         <group/>
+        <group name="Group 20240515-12:10:16">
+            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/Rescue_SP/user.h</file>
+            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/Rescue_SP/main.c</file>
+            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/Rescue_SP/lora.c</file>
+            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/Rescue_SP/lora.h</file>
+            <file>file:/C:/Users/celia/OneDrive/Bureau/doc%20ESME/Master_Projet/Rescue_SP/user.c</file>
+            <file>file:/C:/Users/celia/.mchp_packs/Microchip/PIC32MM-GPL-0XX_DFP/1.4.168/include/proc/p32mm0064gpl036.h</file>
+        </group>
     </open-files>
 </project-private>

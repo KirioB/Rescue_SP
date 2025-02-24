@@ -1,1 +1,0 @@
- $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common   -DXPRJ_XC32_PIC32MM0064GPL036=$(CND_CONF)    $(COMPARISON_BUILD)    D:\Documents\Programmation\LoRaProject\Rescue_SP\configuration_bits.c

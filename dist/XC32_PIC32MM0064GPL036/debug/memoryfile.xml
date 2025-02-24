@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/XC32_PIC32MM0064GPL036/debug/Rescue_SP.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>70800</length>                 
+      <used>7572</used>                     
+      <free>63228</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>8704</length>                 
+      <used>1156</used>                     
+      <free>7548</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
