@@ -46,23 +46,15 @@ int32_t main(void)
     SPI_Init();
     CS_Init();
     
-
+    LED1 = 0;
     while(1)
     {
-        //identifier les leds: 
-   
-        /*LED1 = 1;  // Allume la LED
-        delay_ms(1000);     // Pause 500 ms
-        LED2 = 1; //allume LED2
-        delay_ms(1000);
-        LED1 = 0; //éteindre led1
-        delay_ms(1000);
-        LED2 = 0; 
-         */
-        //delay_ms(100);
+       // LED1 = 1;
         test(0x18,0x32); //VERIFI8ER!!!!!!!!!!!!!!
        // SPI_ReadRegister(0x18);
+        //SPI_SendString("HELLO WORLD");
         
-        //delay_ms (100);
+     //  LED1 = 0;
+        delay_ms (100);
     }
 }

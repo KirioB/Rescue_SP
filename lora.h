@@ -14,8 +14,8 @@
 
 void SPI_WriteRegister(uint8_t address, uint8_t value);
 uint8_t SPI_ReadRegister(uint8_t address);
-//void SPI_ReadRegister(uint8_t address, uint8_t *buffer, uint8_t length);
 uint8_t test (uint8_t address, uint8_t value);
+void SPI_SendString(const char *data);
 
 
 

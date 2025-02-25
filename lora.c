@@ -36,18 +36,56 @@ void SPI_WriteRegister(uint8_t address, uint8_t value) {
 
 uint8_t SPI_ReadRegister(uint8_t address) {
     int result;
-    CS_LOW();
+    CS_LOW(); 
     SPI1BUF = address & 0x7F;  // Adresse (bit MSB = 0 pour écriture)
-    while (!SPI1STATbits.SPIRBF);
-    result = SPI1BUF;
+    while (!SPI1STATbits.SPIRBF); // c un flag qui dit que tant que SPIRBF n'est pas à 1, attend   
+    (void)SPI1BUF; //lit et vide le buffer SPI
+    
+    IFS0bits.SPI1RXIF = 0;
+    SPI1BUF = 0x00;  // Envoyer un octet vide pour lire donc car chaque lecture est couplé à une réception
+    while (!SPI1STATbits.SPIRBF); // c un flag qui dit que tant que SPIRBF n'est pas à 1, attend   
+    (void)SPI1BUF; //lit et vide le buffer SPI
 
-    SPI1BUF = 0x00;  // Envoyer un octet vide pour lire
-    while (!SPI1STATbits.SPIRBF);
+    while (!IFS0bits.SPI1RXIF);
     result = SPI1BUF; // = SPI Receive Buffer Full
+//    while (SPI1STATbits.SPIRBF);
+    
+//    while (!SPI1STATbits.SPIRBF);
+//    result = SPI1BUF; // = SPI Receive Buffer Full
+   
+ 
    // result = getcSPI1();
     CS_HIGH();
     return result;
 }
+
+void SPI_SendString(const char *data) {
+    CS_LOW();
+    int asciilettre;
+    for(int i =0; i = sizeof(*data); i ++)
+    {       
+        asciilettre = data[i]; //convertion en ascii
+        SPI1BUF = 'asciilettre';
+        while (!SPI1STATbits.SPIRBF);  // Attendre la fin de la transmission
+        (void)SPI1BUF;  // Lire et vider le buffer SPI
+        data++;  // Passer au caractère suivant     
+    }
+    
+    CS_HIGH();
+}
+/*
+void SPI_SendString(const char *data) {
+    CS_LOW();
+    
+    while (*data) {  // Tant qu'on n'atteint pas la fin de la chaîne
+        SPI1BUF = *data;  // Envoyer un caractère
+        while (!SPI1STATbits.SPIRBF);  // Attendre la fin de la transmission
+        (void)SPI1BUF;  // Lire et vider le buffer SPI
+        data++;  // Passer au caractère suivant   
+    }
+    CS_HIGH();
+}*/
+
 
 uint8_t test(uint8_t address, uint8_t expected_value) 
 {
@@ -64,13 +102,13 @@ uint8_t test(uint8_t address, uint8_t expected_value)
     LED2 = 0;
     if (retourLora == expected_value) 
     {
-        LED1 = 1;  
+        LED1 = 0;  
         return 1;  
         Nop();
     } 
     else 
     {
-        LED2 = 1;  
+        LED2 = 0;  
         return 0;  
     }
 }

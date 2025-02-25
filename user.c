@@ -57,29 +57,34 @@ void InitApp(void)
 
 void SPI_Init(void) {
     // Configure SPI module
-    SPI1CON = 0;                     // Désactiver SPI pour configurer
+    SPI1CON = 0;  // Effacer tout réglage précédent du registre SPI1CON
+    SPI1CONbits.ON = 0;                     // Désactiver SPI pour configurer.. arrêt de la communication
 //125kHz
 //    SPI1BRG = 0x1F;                  // Baud rate (calculée en fonction de la fréquence de l'horloge du PIC32MM)
 //1MHz
     SPI1BRG = 0x03;                  // Baud rate (calculée en fonction de la fréquence de l'horloge du PIC32MM)
     SPI1STATbits.SPIROV = 0;         // Clear overflow
     SPI1CONbits.CKP = 0;             // Clock idle state is low
-    SPI1CONbits.CKE = 0;             // Data changes on rising edge
+    SPI1CONbits.CKE = 1;             // Data changes on rising edge
+    SPI1CONbits.SMP = 0;             // Input data sampled at middle of data output time
     SPI1CONbits.MSTEN = 1;           // Master mode
-    SPI1CONbits.ON = 1;              // Enable SPI
+    
     SPI1CONbits.MODE16 = 0; // Do not use 16-bit mode
     SPI1CONbits.MODE32 = 0; // Do not use 32-bit mode
     SPI1CONbits.ENHBUF = 0; // Disables Enhanced Buffer mode
-
     
         // Configurer les broches SPI
     TRISBbits.TRISB9 = 0; // MOSI en sortie
     TRISBbits.TRISB14 = 1; // MISO en entrée
+    ANSELBbits.ANSB14 = 0; //car broche en numérique!
     TRISBbits.TRISB8 = 0; // SCK en sortie
 
     // Configurer la broche CS
     TRISBbits.TRISB2 = 0; // CS en sortie
     LATBbits.LATB2 = 1;   // CS inactif (HIGH) par défaut
+    SPI1CONbits.ON = 1;              // Enable SPI, autorise la communication
+    
+    //SPI1CON = 1; //reactiver le spi
 }
 
 void CS_Init(void) {
