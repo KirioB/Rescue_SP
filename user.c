@@ -65,7 +65,7 @@ void SPI_Init(void) {
     SPI1BRG = 0x03;                  // Baud rate (calculée en fonction de la fréquence de l'horloge du PIC32MM)
     SPI1STATbits.SPIROV = 0;         // Clear overflow
     SPI1CONbits.CKP = 0;             // Clock idle state is low
-    SPI1CONbits.CKE = 1;             // Data changes on rising edge
+    SPI1CONbits.CKE = 1;             // Data changes on falling edge
     SPI1CONbits.SMP = 0;             // Input data sampled at middle of data output time
     SPI1CONbits.MSTEN = 1;           // Master mode
     
