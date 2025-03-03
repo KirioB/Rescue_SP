@@ -16,6 +16,7 @@ void SPI_WriteRegister(uint8_t address, uint8_t value);
 uint8_t SPI_ReadRegister(uint8_t address);
 uint8_t test (uint8_t address, uint8_t value);
 void SPI_SendString(const char *data);
+void uart_send(uint8_t retourLora);
 
 
 

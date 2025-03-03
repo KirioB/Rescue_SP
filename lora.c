@@ -4,6 +4,13 @@
 #include "user.h"
 #include "lora.h"
 
+//test UART
+void uart_send(uint8_t retourLora)
+{
+    while (U2STAbits.UTXBF);  // Attendre la place ds buffer
+    U2TXREG = retourLora;  // l'UART2
+}
+
 /*
 void SPI_WriteRegister(uint8_t address, uint8_t value) {
     CS_LOW();
@@ -39,7 +46,7 @@ uint8_t SPI_ReadRegister(uint8_t address) {
     CS_LOW(); 
     SPI1BUF = address & 0x7F;  // Adresse (bit MSB = 0 pour écriture)
     while (!SPI1STATbits.SPIRBF); // c un flag qui dit que tant que SPIRBF n'est pas à 1, attend   
-    (void)SPI1BUF; //lit et vide le buffer SPI
+    (void)SPI1BUF; //lit et vider le buffer SPI
     
     IFS0bits.SPI1RXIF = 0;
     SPI1BUF = 0x00;  // Envoyer un octet vide pour lire donc car chaque lecture est couplé à une réception
@@ -103,6 +110,7 @@ uint8_t test(uint8_t address, uint8_t expected_value)
     if (retourLora == expected_value) 
     {
         LED1 = 0;  
+        //uart_send(retourLora); //ENVOYER TRAME A TESTER
         return 1;  
         Nop();
     } 
