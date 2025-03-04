@@ -68,17 +68,14 @@ uint8_t SPI_ReadRegister(uint8_t address) {
 
 void SPI_SendString(const char *data) {
     CS_LOW();
-    int asciilettre;
-    for(int i =0; i = sizeof(*data); i ++)
+    for(int i =0; data[i] != "\0"; i ++)
     {       
-        asciilettre = data[i]; //convertion en ascii
-        SPI1BUF = 'asciilettre';
+        SPI1BUF = (uint8_t)data[i]; //envoie en caractère ASCII format forcé sur 8 bits (ex si le char est signé on a -128 à 127)
         while (!SPI1STATbits.SPIRBF);  // Attendre la fin de la transmission
-        (void)SPI1BUF;  // Lire et vider le buffer SPI
-        data++;  // Passer au caractère suivant     
+       (void)SPI1BUF;  // Lire et vider le buffer SPI
     }
     
-    CS_HIGH();
+    CS_HIGH(); //désac communication avec cet esclave
 }
 /*
 void SPI_SendString(const char *data) {
@@ -96,7 +93,7 @@ void SPI_SendString(const char *data) {
 
 uint8_t test(uint8_t address, uint8_t expected_value) 
 {
-    //SPI_WriteRegister(address, expected_value);
+    SPI_WriteRegister(address, expected_value);
     
     uint8_t retourLora = 0;
     retourLora = SPI_ReadRegister(address);
@@ -104,19 +101,19 @@ uint8_t test(uint8_t address, uint8_t expected_value)
     Nop();
     Nop();
     Nop();
-    printf("Valeur du registre à l'adresse %u : %u (attendu : %u)\n", address, retourLora, expected_value);
     LED1 = 0;
     LED2 = 0;
     if (retourLora == expected_value) 
     {
         LED1 = 0;  
         //uart_send(retourLora); //ENVOYER TRAME A TESTER
+        LED1 = 1;
         return 1;  
         Nop();
     } 
     else 
     {
-        LED2 = 0;  
+        LED2 = 1;  
         return 0;  
     }
 }
