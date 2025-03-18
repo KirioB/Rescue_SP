@@ -35,19 +35,21 @@ int32_t main(void)
 #endif
     RST();
     InitApp(); 
-    SPI_Init();
-    CS_Init();
+    SPI_Init(); // fonctionnel
+    CS_Init();         
     
-    LED1 = 0;
+    Lora_Setrx(); //also set parameters
+    LED1 = 1;
+    
     while(1)
     {
+        Transmit(); //remet en mode RX
+        delay_ms(1);        
+       if (SPI_ReadRegister(0x12) & 0x40)  // Rx flag change bit 6 => data upcoming TRUE
+        {
+            TestRx(); //récupère les données + reset flag RXdone
+        }
         Nop();
-        Nop();
-        //test(0x018,0x32); //FONCTIONNEL
-        test(0x01,0x81);
-       // SPI_ReadRegister(0x18);
-  //      SPI_SendString("HELLO WORLD");
-        
-        delay_ms (100);
+
     }
 }

@@ -96,7 +96,7 @@ void RST(void){
     TRISAbits.TRISA9 = 0;  // RA9 en sortie
     
     LATAbits.LATA9 = 1;    // RA9 initialisé à LOW
-    delay_ms(500);
+//    delay_ms(500);
     LATAbits.LATA9 = 0;
 }
 /*
