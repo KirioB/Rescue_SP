@@ -16,10 +16,13 @@ void uart_send(uint8_t retourLora) //envoyer valeur reçue
 
 void Transmit (void)
 {      
+    //uint8_t etat = 0;
     SPI_WriteRegister(RegOpMode, 0x84); //sur reg 0x04 pour activer FTRX 
-    delay_ms (1);  //voir p.51/130
-    SPI_WriteRegister(RegOpMode, 0x85); //mode lora et Rx set
-    delay_ms (1); 
+    delay_ms (2);  //voir p.51/130   
+    //etat = SPI_ReadRegister(RegOpMode);   
+    SPI_WriteRegister(RegOpMode, 0x85); //mode lora et Rx set    
+    //etat = SPI_ReadRegister(RegOpMode);
+    delay_ms (2); 
 }
 
 void SPI_WriteRegister(uint8_t address, uint8_t value) {
@@ -89,21 +92,20 @@ void Lora_Setrx (void) //change parameters for LoRa mode and 868MHz
     delay_ms (1);
 }
 uint8_t LoRa_Receive(uint8_t *buffer, uint8_t maxLength) {
-    uint8_t packetSize = SPI_ReadRegister(0x13);  // Lire RegRxNbBytes (taille du paquet reçu)
-
+    uint8_t packetSize = 0;
+    packetSize = SPI_ReadRegister(0x13);  // Lire RegRxNbBytes (taille du paquet reçu) Number of payload bytes of latest packet received
+    Nop();
+    
     if (packetSize == 0 || packetSize > maxLength) {
         return 0;  // Vérification de la validité de la taille
     }
 
-    uint8_t fifoAddr = SPI_ReadRegister(0x10);  // Lire RegFifoRxCurrentAddr (adresse de début du message)
+    uint8_t fifoAddr = SPI_ReadRegister(0x10);  // Lire RegFifoRxCurrentAddr (Start address of last packet received)
     SPI_WriteRegister(0x0D, fifoAddr);  // Régler l'adresse FIFO pour la lecture (RegFifoAddrPtr)
 
     for (uint8_t i = 0; i < packetSize; i++) {
         buffer[i] = SPI_ReadRegister(0x00);  // Lire chaque octet du FIFO
     }
-
-    SPI_WriteRegister(0x12, 0x40);  // Réinitialiser uniquement le flag RxDone
-
     return packetSize;  // Retourner le nombre d?octets reçus
 }
 
@@ -118,6 +120,13 @@ void TestRx (void)
         SPI_WriteRegister(0x12, 0x40); // Remet à zéro UINUQUEMENT RXdone
     }      
 }
+
+
+
+
+
+
+
 
 uint8_t test(uint8_t address, uint8_t expected_value)  //ecriture et lecture regsitre
 {

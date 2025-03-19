@@ -35,21 +35,29 @@ int32_t main(void)
 #endif
     RST();
     InitApp(); 
-    SPI_Init(); // fonctionnel
+    SPI_Init(); 
     CS_Init();         
     
     Lora_Setrx(); //also set parameters
     LED1 = 1;
-    
+    uint8_t etat = 99;
     while(1)
     {
-        Transmit(); //remet en mode RX
-        delay_ms(1);        
-       if (SPI_ReadRegister(0x12) & 0x40)  // Rx flag change bit 6 => data upcoming TRUE
-        {
-            TestRx(); //récupère les données + reset flag RXdone
-        }
+        Transmit(); //remet en mode RX   
+        etat = SPI_ReadRegister(0x12);
         Nop();
+        
+        while (!(SPI_ReadRegister(0x12) & 0x40))// Rx flag change bit 6 => data upcoming TRUE ??  
+        {
+            delay_ms(1);
+//            etat = SPI_ReadRegister(0x12);
+            Nop();
+//            TestRx(); //récupère les données + reset flag RXdone
+        }
+        etat = SPI_ReadRegister(0x12);
+        Nop();
+        TestRx(); //récupère les données + reset flag RXdone
+        
 
     }
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/XC32_PIC32MM0064GPL036/debug/Rescue_SP.debug.elf">                 
+  <executable name="dist/XC32_PIC32MM0064GPL036/production/Rescue_SP.production.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>70800</length>                 
-      <used>3564</used>                     
-      <free>67236</free>                     
+      <used>3560</used>                     
+      <free>67240</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
-      <length>8704</length>                 
-      <used>1076</used>                     
-      <free>7628</free>                     
+      <length>8192</length>                 
+      <used>52</used>                     
+      <free>8140</free>                     
     </memory>                              
   </executable>                            
 </project>                                 
