@@ -29,7 +29,7 @@
 
 #define MISO TRISBbits.TRISB14
 
-#define RX_BUFFER_SIZE 32  // Taille max du buffer de réception
+#define RX_BUFFER_SIZE 64  // Taille max du buffer de réception
 
 
 

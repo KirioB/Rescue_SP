@@ -17,12 +17,19 @@ void uart_send(uint8_t retourLora) //envoyer valeur reçue
 void Transmit (void)
 {      
     //uint8_t etat = 0;
+    /*SPI_WriteRegister(0x1F, 0xFF); // Timeout maximal 8s
+    delay_ms(2);*/
+
+ //   LoRa_SetEtat(stdby);
+//    delay_ms (2);  //voir p.51/130   
+
     SPI_WriteRegister(RegOpMode, 0x84); //sur reg 0x04 pour activer FTRX 
-    delay_ms (2);  //voir p.51/130   
+    delay_ms (10);  //voir p.51/130   
     //etat = SPI_ReadRegister(RegOpMode);   
-    SPI_WriteRegister(RegOpMode, 0x85); //mode lora et Rx set    
+    SPI_WriteRegister(RegOpMode, 0x85); //mode lora et Rx set continuous    
+//    SPI_WriteRegister(RegOpMode, 0x08); //mode lora et Rx set single rx mode    
     //etat = SPI_ReadRegister(RegOpMode);
-    delay_ms (2); 
+    delay_ms (10); 
 }
 
 void SPI_WriteRegister(uint8_t address, uint8_t value) {
@@ -58,6 +65,8 @@ uint8_t LoRa_SetEtat(uint8_t mode) {
 }
 void Lora_Setrx (void) //change parameters for LoRa mode and 868MHz
 { 
+    unsigned char dummy;
+    
     LoRa_SetEtat(sleep); //pr passer en mode LoRa
     delay_ms (1);
     LoRa_SetEtat(stdby);
@@ -66,19 +75,29 @@ void Lora_Setrx (void) //change parameters for LoRa mode and 868MHz
     delay_ms (1); 
     SPI_WriteRegister(RegOpMode, 0x80); //sur reg 0x01: 0b1xxx x101 7-0 pour émission continue 
     delay_ms (1);
-    Transmit(); //for Rx mode throught TFRX (must be call before, ok in function)         
+    //Transmit(); //for Rx mode throught TFRX (must be call before, ok in function)         
+//    SPI_WriteRegister(RegOpMode, 0x84); //sur reg 0x04 pour activer FTRX 
+    delay_ms (2);  //voir p.51/130   
+    //etat = SPI_ReadRegister(RegOpMode);   
+//    SPI_WriteRegister(RegOpMode, 0x86); //mode lora et Rx single   
+    //etat = SPI_ReadRegister(RegOpMode);
+    delay_ms (2);
+    
     SPI_WriteRegister(0x0C, 0x23); //active boost pour un meilleur gain
     delay_ms (1); 
-    SPI_WriteRegister(0x1D, 0xB); 
+    SPI_WriteRegister(0x1D, 0x0B); 
     delay_ms (1);
     SPI_WriteRegister(0x1E, 0xC4); //0b1100 x(0)100, SF12 7-4, 0 car réception -3 
     delay_ms (1);
-    SPI_WriteRegister(0x1F, 0x05); //car SF>= 10
+//    SPI_WriteRegister(0x1F, 0x05); //car SF>= 10
+    SPI_WriteRegister(0x1F, 0x64); //car SF>= 10
     delay_ms (1);
     SPI_WriteRegister(0x23, 0x40); //seule option
     delay_ms (1);
     SPI_WriteRegister(0x39, 0x34); //seule option
     delay_ms (1);
+        dummy = SPI_ReadRegister(0x39);
+        Nop();
     SPI_WriteRegister(0x33, 0x67); //seule option
     delay_ms (1);
     SPI_WriteRegister(0x3B, 0x19); //seule option
@@ -93,20 +112,27 @@ void Lora_Setrx (void) //change parameters for LoRa mode and 868MHz
 }
 uint8_t LoRa_Receive(uint8_t *buffer, uint8_t maxLength) {
     uint8_t packetSize = 0;
+    uint8_t valeur = 0;
     packetSize = SPI_ReadRegister(0x13);  // Lire RegRxNbBytes (taille du paquet reçu) Number of payload bytes of latest packet received
     Nop();
     
-    if (packetSize == 0 || packetSize > maxLength) {
-        return 0;  // Vérification de la validité de la taille
+    if (packetSize > maxLength) {
+    packetSize = maxLength;  // Éviter le dépassement du buffer
     }
 
     uint8_t fifoAddr = SPI_ReadRegister(0x10);  // Lire RegFifoRxCurrentAddr (Start address of last packet received)
     SPI_WriteRegister(0x0D, fifoAddr);  // Régler l'adresse FIFO pour la lecture (RegFifoAddrPtr)
 
     for (uint8_t i = 0; i < packetSize; i++) {
+        valeur = buffer[i]; //TEST
         buffer[i] = SPI_ReadRegister(0x00);  // Lire chaque octet du FIFO
     }
     return packetSize;  // Retourner le nombre d?octets reçus
+    
+    uint8_t mode = SPI_ReadRegister(0x01);
+    if ((mode & 0x07) != 0x05) {  // Mode 0b101 = réception continue
+        return 0; //TEST
+    }
 }
 
 void TestRx (void)

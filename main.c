@@ -38,26 +38,52 @@ int32_t main(void)
     SPI_Init(); 
     CS_Init();         
     
+    delay_ms(10);
     Lora_Setrx(); //also set parameters
     LED1 = 1;
+    
+//    SPI_WriteRegister(0x12, 0xC0); //reset RxTimeOut et flag réception
     uint8_t etat = 99;
     while(1)
-    {
-        Transmit(); //remet en mode RX   
-        etat = SPI_ReadRegister(0x12);
+    {          
+        delay_ms(1);
+ //       etat = SPI_ReadRegister(0x06);
         Nop();
-        
-        while (!(SPI_ReadRegister(0x12) & 0x40))// Rx flag change bit 6 => data upcoming TRUE ??  
+
+        Transmit(); //remet en mode RX
+
+        delay_ms(100);
+//        etat = SPI_ReadRegister(0x06);
+        Nop();
+
+        delay_ms(1);
+ //       etat = SPI_ReadRegister(0x12);
+        Nop();
+       
+        while ( !((etat = SPI_ReadRegister(0x12)) & 0x40))// Rx flag change bit 6 => data upcoming TRUE ??  
         {
+                Nop();
             delay_ms(1);
+            if (etat & 0x10)
+            {
+                Nop();
+            }
 //            etat = SPI_ReadRegister(0x12);
             Nop();
-//            TestRx(); //récupère les données + reset flag RXdone
+//          TestRx(); //récupère les données + reset flag RXdone
+            SPI_WriteRegister(0x12, 0x80);
         }
-        etat = SPI_ReadRegister(0x12);
+        
+        if (etat & 0x80) {  // RxTimeout est activé
+        SPI_WriteRegister(0x12, 0xC0);  // Reset des flags
+        return 0;  // On quitte la fonction, pas de données valides
+        }
+        else {
+        etat = SPI_ReadRegister(0x12); //0xc0 donc RxDone et TimeOut
         Nop();
         TestRx(); //récupère les données + reset flag RXdone
         
-
+            
+        }
     }
 }
